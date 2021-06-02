@@ -1,11 +1,11 @@
 import React from "react";
 
-function Products() {
+function Patient2() {
   return (
-    <div className="products">
-      <h1>Products</h1>
+    <div className="patient2">
+      <h1>Patient2</h1>
     </div>
   );
 }
 
-export default Products;
+export default Patient2;
