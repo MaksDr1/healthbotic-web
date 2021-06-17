@@ -4,6 +4,7 @@ import {
   current,
   PayloadAction,
 } from "@reduxjs/toolkit";
+import { getPatientsThunk } from "./thunks";
 
 export interface IMedicine {
   time: Date;
@@ -42,7 +43,7 @@ export interface IHealthBotic {
 const localStorageUsers =
   JSON.parse(window.localStorage.getItem("users") as string) ?? ([] as IUser[]);
 
-console.log(localStorageUsers);
+//console.log(localStorageUsers);
 
 const initialState: IHealthBotic = {
   users: [],
@@ -92,6 +93,13 @@ const healthBoticSlice = createSlice({
       state.infoSelected = true;
     },
   },
+  extraReducers: (builder) =>
+    builder.addCase(getPatientsThunk.fulfilled, (state, action) => {
+      const patients = action.payload;
+      console.debug(patients);
+
+      // TODO add patients to state
+    }),
 });
 
 export const { addUser, tryLogin, selectPatient, selectMedicine, selectInfo } =

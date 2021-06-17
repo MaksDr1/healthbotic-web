@@ -1,7 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import loginImg from "../../components/login/login.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, tryLogin, usersSelector } from "../../store/slice";
+import { getPatientsThunk } from "../../store/thunks";
+import ReduxThunk from "redux-thunk"; // no changes here 😀
 
 export const Login = (props: any) => {
   const dispatch = useDispatch();
@@ -10,6 +12,10 @@ export const Login = (props: any) => {
     const password = (document.getElementById("password") as any)?.value;
     const user = { name, password };
     dispatch(tryLogin(user));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getPatientsThunk());
   }, [dispatch]);
 
   return (

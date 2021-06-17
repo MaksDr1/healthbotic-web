@@ -10,7 +10,6 @@ import {
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Chart from "react-apexcharts";
-import HeartbeatChart from "./HeartbeatChart";
 
 class MaximChart extends Component {
   constructor(props) {
@@ -117,7 +116,6 @@ export default function Patient1() {
               </div>
             </div>
           </div>
-
           <div className="chartContainer">
             <MaximChart />
           </div>

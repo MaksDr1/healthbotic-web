@@ -3,12 +3,17 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import LoginRegister from "./components/login/App";
 import reportWebVitals from "./reportWebVitals";
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { healthBoticReducer } from "./store/slice";
 import { Provider } from "react-redux";
 import { Router } from "./components/Router";
+import { GET, GetPatient, GetPatients } from "./utils/WebUtils";
+import thunk from "redux-thunk";
 
-const store = createStore(healthBoticReducer);
+const store = createStore(healthBoticReducer, applyMiddleware(thunk));
+
+//GetPatients();
+GetPatient(0);
 
 ReactDOM.render(
   <React.StrictMode>
