@@ -9,17 +9,15 @@ import { Provider } from "react-redux";
 import { Router } from "./components/Router";
 import { GET, GetPatient, GetPatients } from "./utils/WebUtils";
 import thunk from "redux-thunk";
+import Calendar from "./pages/MedicineSchedule/Calendar";
+import AllRateChart from "./pages/AllCharts/AllRateChart";
 
 const store = createStore(healthBoticReducer, applyMiddleware(thunk));
 
-//GetPatients();
-GetPatient(0);
-
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    {/*<Provider store={store}>{<Router />}</Provider>*/}
+    <Provider store={store}>{<AllRateChart />}</Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

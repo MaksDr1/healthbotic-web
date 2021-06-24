@@ -4,7 +4,13 @@ import {
   current,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { getPatientsThunk } from "./thunks";
+import {
+  getPatientsThunk,
+  getPatientThunk,
+  initializeData,
+  loginThunk,
+  registerThunk,
+} from "./thunks";
 
 export interface IMedicine {
   time: Date;
@@ -94,12 +100,116 @@ const healthBoticSlice = createSlice({
     },
   },
   extraReducers: (builder) =>
-    builder.addCase(getPatientsThunk.fulfilled, (state, action) => {
-      const patients = action.payload;
-      console.debug(patients);
+    builder
+      .addCase(getPatientsThunk.pending, (state, action) => {
+        const patients = action.payload;
+        console.debug(patients);
 
-      // TODO add patients to state
-    }),
+        // TODO add patients to state
+      })
+      .addCase(getPatientThunk.fulfilled, (state, action) => {
+        const patient = action.payload;
+        console.debug(patient);
+
+        const examplePatient = {
+          id: 0,
+          firstName: "asd",
+          lastName: "asdasd",
+          gender: 5,
+          dateOfBirth: "sdasda",
+          bsn: 23423,
+        };
+
+        const myPatient: IPatient = {
+          id: examplePatient.id,
+          name: examplePatient.firstName,
+          lastName: examplePatient.lastName,
+          dateOfBirth: new Date(examplePatient.dateOfBirth),
+          bsn: examplePatient.bsn,
+          uid: 0,
+
+          medicine: [],
+        };
+
+        // TODO add patients to state
+      })
+      .addCase(initializeData.fulfilled, (state, action) => {
+        const data = action.payload;
+
+        console.debug(data);
+
+        const convertedNurses: IUser[] = data.nurses.map((n: any) => ({
+          id: n.id,
+          name: n.firstName,
+          email: n.lastName,
+          password: "NOT-USED",
+
+          patients: [],
+        }));
+
+        console.debug(convertedNurses);
+
+        state.users = convertedNurses;
+
+        /*const convertetPatients: IPatient[] = data.patients.map(p => ({
+          id: p.id,
+          name: p.firstName,
+          lastName: p.lastName,
+          dateOfBirth: new Date(p.dateOfBirth),
+          bsn: p.bsn,
+          uid: 0,
+
+          medicine: [],
+        }))*/
+      })
+      .addCase(registerThunk.fulfilled, (state, action) => {
+        const data = action.payload;
+        const converted = {
+          id: data.id,
+          name: data.firstName,
+          email: data.lastName,
+          password: "NOT-USED",
+
+          patients: [],
+        };
+
+        state.users.push(converted);
+      })
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        //
+        const { loginData, patients } = action.payload;
+
+        state.loggedInUserId = loginData.id;
+
+        if (loginData.id === 2) {
+          console.debug("adasdadasad");
+          state.users
+            .find((u) => u.id === loginData.id)
+            ?.patients.push({
+              id: 0,
+              name: "John",
+              lastName: "Super",
+              uid: 5,
+              dateOfBirth: new Date(),
+              bsn: 23423,
+              medicine: [],
+            });
+        }
+
+        if (loginData.id === 3) {
+          state.users
+            .find((u) => u.id === loginData.id)
+            ?.patients.push({
+              id: 0,
+              name: "Max",
+              lastName: "Best",
+              uid: 5,
+              dateOfBirth: new Date(),
+              bsn: 23423,
+              medicine: [],
+            });
+        }
+      }),
 });
 
 export const { addUser, tryLogin, selectPatient, selectMedicine, selectInfo } =
@@ -117,6 +227,11 @@ export const loggedInUserSelector = createSelector(
   usersSelector,
   loggedInUserIdSelector,
   (users, id) => users.find((u) => u.id === id)
+);
+
+export const loggedInUserNameSelector = createSelector(
+  loggedInUserSelector,
+  (user) => user?.name
 );
 
 export const loggedInUserPatientsSelector = createSelector(

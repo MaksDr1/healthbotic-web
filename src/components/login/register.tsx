@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import loginImg from "../../components/login/login.svg";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../store/slice";
+import { registerThunk } from "../../store/thunks";
 
 export const Register = (props: any) => {
   const dispatch = useDispatch();
@@ -10,7 +11,15 @@ export const Register = (props: any) => {
     const email = (document.getElementById("email") as any)?.value;
     const password = (document.getElementById("password") as any)?.value;
     const user = { name, email, password };
-    dispatch(addUser(user));
+
+    dispatch(
+      registerThunk({
+        firstName: name,
+        email: email,
+        password: password,
+        lastName: "NOT-USED",
+      })
+    );
   }, [dispatch]);
 
   // Render

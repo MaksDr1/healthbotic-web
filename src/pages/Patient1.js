@@ -10,6 +10,10 @@ import {
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Chart from "react-apexcharts";
+import Overview2 from "./Overview2";
+import Overview1 from "./Overview1";
+import { useSelector } from "react-redux";
+import { loggedInUserPatientsSelector } from "../store/slice";
 
 class MaximChart extends Component {
   constructor(props) {
@@ -53,6 +57,7 @@ class MaximChart extends Component {
 }
 
 export default function Patient1() {
+  const patient = useSelector(loggedInUserPatientsSelector)[0];
   return (
     <div className="user">
       <div className="userTitleContainer">
@@ -70,7 +75,9 @@ export default function Patient1() {
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">Anna Becker</span>
+              <span className="userShowUsername">
+                {patient?.name} {patient?.lastName}
+              </span>
               <span className="userShowUserTitle">Software Engineer</span>
             </div>
           </div>
@@ -116,8 +123,15 @@ export default function Patient1() {
               </div>
             </div>
           </div>
-          <div className="chartContainer">
-            <MaximChart />
+
+          <div
+            className="chartContainer"
+            style={{
+              width: "4000px",
+              height: "4000px",
+            }}
+          >
+            <Overview1 />
           </div>
         </div>
       </div>

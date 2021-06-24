@@ -2,20 +2,25 @@ import React, { useCallback, useEffect } from "react";
 import loginImg from "../../components/login/login.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, tryLogin, usersSelector } from "../../store/slice";
-import { getPatientsThunk } from "../../store/thunks";
-import ReduxThunk from "redux-thunk"; // no changes here 😀
+import {
+  getPatientsThunk,
+  initializeData,
+  loginThunk,
+} from "../../store/thunks";
+import ReduxThunk from "redux-thunk";
+import { Register } from "../../utils/WebUtils"; // no changes here 😀
+import { Login as APILogin } from "../../utils/WebUtils"; // no changes here 😀
 
 export const Login = (props: any) => {
   const dispatch = useDispatch();
   const handleLogin = useCallback(() => {
     const name = (document.getElementById("username") as any)?.value;
     const password = (document.getElementById("password") as any)?.value;
-    const user = { name, password };
-    dispatch(tryLogin(user));
+    dispatch(loginThunk({ email: name, password }));
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getPatientsThunk());
+    dispatch(initializeData());
   }, [dispatch]);
 
   return (
@@ -37,6 +42,15 @@ export const Login = (props: any) => {
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="password"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Id</label>
             <input
               id="password"
               type="password"

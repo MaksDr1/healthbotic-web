@@ -4,9 +4,12 @@ import hello from "../components/assets/hello.svg";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./Home.css";
 import "font-awesome/css/font-awesome.min.css";
+import { loggedInUserNameSelector } from "../store/slice";
 
 // Home page
 function Home() {
+  const name = useSelector(loggedInUserNameSelector);
+
   // Render
   return (
     <main>
@@ -14,7 +17,7 @@ function Home() {
         <div className="main__title">
           <img src={hello} alt={"hello"} />
           <div className="main__greeting">
-            <h1>Hello Eline</h1>
+            <h1>Hello {name}</h1>
             <p>Welcome to your admin dashboard</p>
           </div>
         </div>

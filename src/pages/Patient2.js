@@ -1,11 +1,22 @@
 import React from "react";
+import Overview2 from "./Overview2";
+import Calendar from "./MedicineSchedule/Calendar";
 
-function Patient2() {
+//function
+const Patient2 = () => {
   return (
     <div className="patient2">
       <h1>Patient2</h1>
     </div>
   );
-}
+};
 
-export default Patient2;
+const Overview = () => {
+  return (
+    <div className="patient2">
+      <Overview2 />
+    </div>
+  );
+};
+
+export { Patient2, Overview };

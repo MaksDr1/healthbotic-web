@@ -106,6 +106,9 @@
 
 .chartContainer
 {
+    max-height:200px;
+    max-width: 300px;
+    object-fit: contain;
     right: 0;
     position: absolute;
     margin-right: 10px;
